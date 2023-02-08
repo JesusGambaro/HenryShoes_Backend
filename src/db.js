@@ -34,7 +34,7 @@ let sequelize =
         },
         ssl: true,
       })
-    : new Sequelize("postgres://JesusGambaro@ep-red-sound-224177.us-east-2.aws.neon.tech/pfshoes", {
+    : new Sequelize("postgres://JesusGambaro@ep-red-sound-224177.us-east-2.aws.neon.tech/pfshoes?ssl=true", {
         logging: false,
         native: false,
       })
