@@ -2,42 +2,14 @@ const { Sequelize } = require("sequelize")
 const fs = require("fs")
 const path = require("path")
 require("dotenv").config()
-const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST } = process.env
-// const sequelize = new Sequelize(
-//   `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/pfshoes`,
-//   {
-//     logging: false,
-//     native: false,
-//   }
-// )
-let sequelize =
-  process.env.NODE_ENV === "production"
-    ? new Sequelize({
-        database: DB_NAME,
-        dialect: "postgres",
-        host: DB_HOST,
-        port: 5432,
-        username: DB_USER,
-        password: DB_PASSWORD,
-        pool: {
-          max: 3,
-          min: 1,
-          idle: 10000,
-        },
-        dialectOptions: {
-          ssl: {
-            require: true,
-            // Ref.: https://github.com/brianc/node-postgres/issues/2009
-            rejectUnauthorized: false,
-          },
-          keepAlive: true,
-        },
-        ssl: true,
-      })
-    : new Sequelize("postgres://JesusGambaro@ep-red-sound-224177.us-east-2.aws.neon.tech/pfshoes?ssl=true", {
-        logging: false,
-        native: false,
-      })
+const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, ENDPOINT_ID } = process.env;
+const URL = `postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?options=project%3D${ENDPOINT_ID}&ssl=true`;
+const sequelize = new Sequelize(URL,
+  {
+    logging: false,
+    native: false,
+  }
+)
 const basename = path.basename(__filename)
 
 const modelDefiners = []
